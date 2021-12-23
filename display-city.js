@@ -29,7 +29,7 @@ function getCity(city) {
                         <td><button type="button" value="${city.id}" onclick="showInfoCity(this)">${city.name}</button></td>
                         <td>${city.country.name}</td>` +
         `<td><button type="button" value="${city.id}" onclick="showEditCity(this)">Edit</button></td>` +
-        `<td><button type="button" value="${city.id}" onclick="showFormDeleteCity(this)">Delete</button></td>` +
+        `<td><button type="button" value="${city.id}" onclick="deleteCity(this)">Delete</button></td>` +
         `</tr>`;
 }
 
@@ -133,20 +133,19 @@ function showFormAdd() {
     $('#FormCity').modal('show')
 }
 
-function showFormDeleteCity(id) {
+function showFormDeleteCity(city) {
     $('#FormDetails').modal('hide');
-    $('#cityIdDelete').val(id)
-    $('#FormDelete').modal('show')
+    $('#cityIdDelete').val(city.id);
+    $('#FormDelete').modal('show');
 }
 
-function deleteCity() {
-    let cityId = $('#cityIdDelete').val()
+function deleteCity(a) {
+    let cityId = a.getAttribute("value");
     $.ajax({
         type: "DELETE",
         url: 'http://localhost:8080/cities/' + cityId,
         success: function () {
             alert("Delete Success")
-            closeDeleteForm()
             getAllCities()
         }
     });
